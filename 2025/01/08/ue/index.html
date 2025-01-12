@@ -1,0 +1,323 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>UE基础知识（一） | WindLike</title><meta name="author" content="WindLike"><meta name="copyright" content="WindLike"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="基于UE官方文档学习编写 基础知识 UE界面 首次打开UE5时，呈现的是关卡编辑器（Level Editor）的界面。 官方文档提供图片如下：   什么是关卡？ 文档中指出，关卡（Level）是游戏世界的部分或者全部。关卡包含玩家可以看到并与之交互的所有内容。游戏中常常有多个关卡，彼此之间有划分明确的过渡。  UE将每个关卡保存为单独的.umap文件，因此有时关卡又被称为Maps。 组合起来创建关">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UE基础知识（一）">
+<meta property="og:url" content="https://windlikeo.github.io/2025/01/08/ue/index.html">
+<meta property="og:site_name" content="WindLike">
+<meta property="og:description" content="基于UE官方文档学习编写 基础知识 UE界面 首次打开UE5时，呈现的是关卡编辑器（Level Editor）的界面。 官方文档提供图片如下：   什么是关卡？ 文档中指出，关卡（Level）是游戏世界的部分或者全部。关卡包含玩家可以看到并与之交互的所有内容。游戏中常常有多个关卡，彼此之间有划分明确的过渡。  UE将每个关卡保存为单独的.umap文件，因此有时关卡又被称为Maps。 组合起来创建关">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://windlikeo.github.io/Images/avatar.png">
+<meta property="article:published_time" content="2025-01-08T05:54:45.000Z">
+<meta property="article:modified_time" content="2025-01-09T10:25:29.676Z">
+<meta property="article:author" content="WindLike">
+<meta property="article:tag" content="游戏开发">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://windlikeo.github.io/Images/avatar.png"><link rel="shortcut icon" href="/img/fav.png"><link rel="canonical" href="https://windlikeo.github.io/2025/01/08/ue/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/css/index.css?v=5.0.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.6.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        if (name && globalFn[key][name]) return
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: {"limitDay":365,"position":"top","messagePrev":"距离上次更新已经过去","messageNext":"天，文章内容可能过时"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'UE基础知识（一）',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2025-01-09 18:25:29'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/Images/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">14</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 存档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">WindLike</span></a><a class="nav-page-title" href="/"><span class="site-name">UE基础知识（一）</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 存档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">UE基础知识（一）</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-01-08T05:54:45.000Z" title="发表于 2025-01-08 13:54:45">2025-01-08</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-01-09T10:25:29.676Z" title="更新于 2025-01-09 18:25:29">2025-01-09</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%B8%B8%E6%88%8F/">游戏</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">3.8k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>11分钟</span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>基于UE官方文档学习编写</p>
+<h1>基础知识</h1>
+<h2 id="UE界面">UE界面</h2>
+<p>首次打开UE5时，呈现的是<b>关卡编辑器（Level Editor）</b>的界面。</p>
+<p>官方文档提供图片如下：<br>
+<img src="/Images/ue/image1.png" alt="ue1"></p>
+<blockquote>
+<p>什么是关卡？<br>
+文档中指出，关卡（Level）是游戏世界的部分或者全部。关卡包含玩家可以看到并与之交互的所有内容。游戏中常常有多个关卡，彼此之间有划分明确的过渡。</p>
+</blockquote>
+<p>UE将每个关卡保存为单独的.umap文件，因此有时关卡又被称为Maps。</p>
+<p>组合起来创建关卡至少所需的元素有：<br>
+一个.umap文件，即关卡本身。可将其视为保存其他所有内容的容器。<br>
+一个由静态网格体Actor（Static Mesh Actors）组成的环境，例如树木、岩石、墙壁等。<br>
+一个由骨骼网格体Actor（Skeletal Mesh Actor）表示的玩家角色。<br>
+一个或多个不同类型的光源。<br>
+环境声音和音效。</p>
+<p>复杂关卡可能还有粒子效果、视效后期处理、关卡流送等待。</p>
+<h3 id="菜单栏">菜单栏</h3>
+<p>编号为1的为菜单栏：<br>
+<img src="/Images/ue/image2.png" alt="ue1"><br>
+菜单栏可能位于编辑器窗口右上角。部分菜单项会出现在所有编辑器窗口中，如文件File、窗口Window、帮助Help</p>
+<h3 id="主工具栏">主工具栏</h3>
+<p>编号为2的为主工具栏：<br>
+<img src="/Images/ue/image3.png" alt="ue1"></p>
+<p>主工具栏包含UE编辑器中最常使用的工具和命令的快捷方式。其中有：<br>
+保存按钮：保存当前打开的关卡</p>
+<p>模式选择：用于在不同的模式之间快速切换、以编辑关卡中的内容，如选择、地形、植被、网格体、破裂、笔刷等，</p>
+<p>内容快捷方式：<br>
+Create：创建/导入资产、放置Actor<br>
+蓝图：创建和访问蓝图<br>
+过场动画：创建关卡序列或主序列过场动画。</p>
+<p>播放模式控制：包含在编辑器中运行游戏的快捷键方式</p>
+<p>平台菜单：用于配置、准备项目并将其部署到不同平台</p>
+<p>设置：包含虚幻编辑器、关卡编辑器视口和游戏行为的各种设置</p>
+<h3 id="关卡视口">关卡视口</h3>
+<p>编号为3的为关卡视口（Level Viewport），显示当前打开的关卡的内容。</p>
+<p>关卡视口显示关卡内容的方式通常有两种：<br>
+视角：3D视图，可以从不同角度在视图中查看视口的内容<br>
+直角：2D视图，沿着一个主轴俯视。</p>
+<h3 id="内容侧滑菜单-内容浏览器">内容侧滑菜单/内容浏览器</h3>
+<p>内容浏览器（Content Browser），显示项目中包含的所有资产、蓝图和其他文件，使用内容浏览器来浏览内容、将资产拖动到关卡中、在项目之间迁移资产以及执行其他操作。</p>
+<p>内容侧滑菜单（Content Drawer），该按钮即位于UE的左下角，可以打开内容浏览器的一个<strong>特殊实例</strong>，非焦点状态下自动最小化。点击内容侧滑菜单中的<strong>停靠在布局中</strong>按钮，会创建内容浏览器的实例，但仍可打开内容侧滑菜单。</p>
+<h3 id="底部工具栏">底部工具栏</h3>
+<p><img src="/Images/ue/image4.png" alt="ue1"><br>
+和文档不同，除了输出日志、命令控制台、派生数据外，还显示有追踪、开始追踪、快照、编译、显示资产保存状态、版本控制。</p>
+<p>输出日志：用于在程序运行时，输出有用信息的调试工具<br>
+命令控制台：输入控制台命令触发特定编辑器行为<br>
+派生数据：提供派生数据功能？</p>
+<h3 id="大纲">大纲</h3>
+<p>Outliner面板，显示关卡  中所有内容的分层视图。最多可以打开四个不同的大纲界面，每个大纲的布局和过滤设置都可以不一样。</p>
+<p>通过关联的眼睛按钮，快速隐藏或显示Actor。</p>
+<p>右键点击该Actor即可访问Actor的上下文菜单。然后，从该菜单中执行其他特定于Actor的操作。</p>
+<p>可以创建、移动和删除内容文件夹</p>
+<h3 id="细节面板">细节面板</h3>
+<p>Details</p>
+<p>从关卡视口中选择一个Actor之后，细节面板将会显示影响所选Actor的设置和属性。</p>
+<p>默认位于右侧大纲视图面板下</p>
+<h2 id="UE术语">UE术语</h2>
+<h3 id="项目">项目</h3>
+<p>Project，UE5项目包含游戏的所有内容。<br>
+项目中的大量文件存储在磁盘上。内容浏览器面板显示与磁盘上Project文件夹相同的目录结构（显示的是项目目录下Content目录下的内容,C++项目还包含C++类）。</p>
+<p>每个项目都有与其关联的.uproject文件</p>
+<h3 id="蓝图">蓝图</h3>
+<p>UE中完善的gameplay脚本系统，在编辑器中使用<strong>基于节点</strong>的界面来创建gameplay元素。<br>
+它可以用在引擎中定义以Object为导向的类或Object。在使用UE时，使用蓝图定义的Object被统称为蓝图。</p>
+<h3 id="对象">对象</h3>
+<p>Object是UE引擎中最基本的类（概念），它们像建造系统的砖块，包含资产的大量基本功能。UE引擎中几乎所有功能都继承自Object。<br>
+UE的C++中，UObject是所有Object的基类，可以实现垃圾回收、将变量提供给虚幻编辑器的元数据（UProperty）支持以及用于加载和保存序列化等。</p>
+<h3 id="类">类</h3>
+<p>Class中定义UE中特定Actor或Object的行为和属性。可以在C++代码中或蓝图中创建类。</p>
+<h3 id="Actor">Actor</h3>
+<p>Actor是可以放到关卡中的任何Object，例如摄像机、静态网格体或玩家出生点位置。Actor支持3D变换，例如转换、旋转和缩放。可以通过gameplay代码（C++或蓝图）创建或销毁Actor。<br>
+在C++中，AActor是所有Actor的基类。</p>
+<h3 id="类型转换">类型转换</h3>
+<p>类型转换Casting是一种动作，将会提取特定类的Actor并尝试将其作为其他类进行处理。<br>
+类型转换可能成功，也可能失败。如果类型转换成功，则可以在你类型转换到的Actor上访问特定于类的功能。</p>
+<p>例如玩家可以有多种体积类型，其中一个是火焰。当角色与关卡中任何体积重叠，尝试将体积转换到火焰上，如果转换成功，就可以尝试访问扣血功能。</p>
+<h3 id="组件">组件</h3>
+<p>Component是一种可以添加到Actor的功能。<br>
+将组件添加到Actor时，Actor可以使用组件提供的功能。例如：<br>
+点光源组件、旋转移动组件、音频组件<br>
+组件必须连接到Actor，不能独自存在。</p>
+<h3 id="Pawn">Pawn</h3>
+<p>Pawn是Actor的子类，作为游戏内的形象或人像。玩家或AI可以控制Pawn。Pawn被控制时，会将其视为被占有，相反会将其视为未被占有。</p>
+<h3 id="角色">角色</h3>
+<p>Character是计划用作玩家角色的Pawn Actor的子类，角色子类包括碰撞设置、双足运动的输入绑定以及用于玩家控制动作的其他代码。</p>
+<h3 id="玩家控制器">玩家控制器</h3>
+<p>Player Controller<br>
+玩家控制器获取玩家输入，并将其转换到游戏内的互动中。每个游戏内部都至少具有一个玩家控制器。玩家控制器通常操控一个Pawn或角色作为玩家在游戏中的呈现方式。</p>
+<p>玩家控制器还是多人游戏的主要网络互动点。<br>
+多人游戏期间，服务器具有游戏中每个玩家的玩家控制器的一个实例，因为它还必须对每个玩家进行网络功能调用。<br>
+每个客户端都只有一个与玩家对应的玩家控制器，并且只能使用其玩家控制器与服务器进行通信。<br>
+关联C++类为PlayerController。</p>
+<h3 id="AI控制器">AI控制器</h3>
+<p>AI控制器操控Pawn在游戏中呈现非玩家角色。默认情况下，Pawn和角色都以基本AI控制器终结，除非它们被玩家控制器专门操控或者收到指令不允许为自己创建AI控制器。<br>
+关联C++类是AIController。</p>
+<h3 id="玩家状态">玩家状态</h3>
+<p>Player State，玩家状态是游戏参与者在游戏中的状态，例如名称、等级、血量、得分等。<br>
+多人游戏中，所有玩家的玩家状态都在所有机器中存在，可以将数据从游戏中复制到客户端以保持内容一致。不同于玩家控制器。<br>
+关联C++类是PlayerState。</p>
+<h3 id="游戏模式">游戏模式</h3>
+<p>Game Mode，游戏模式设置要运行的游戏规则。例如玩家如何加入游戏、游戏是否可以暂停、获胜条件等。<br>
+项目设置中可以设置默认游戏模式，针对不同关卡可以重载游戏模式，但每个关卡只有一个游戏模式<br>
+多人游戏中，游戏模式新存在于服务器上，规则将复制发送到每个连接的客户端。</p>
+<p>关联C++类是GameMode</p>
+<h3 id="游戏状态">游戏状态</h3>
+<p>Game State<br>
+游戏状态是一个容器，包含你要在游戏中复制到每个客户端的信息。<br>
+可能包含与游戏得分相关信息、比赛是否开始、AI角色数量等。<br>
+对于多人游戏，每个玩家机器上都有一个本地游戏状态实例，本地游戏状态实例从游戏状态的服务器实例获取更新的信息。</p>
+<h3 id="笔刷">笔刷</h3>
+<p>Brush<br>
+用于描述3D形状的Actor，例如立方体或球体。可以将笔刷放置在关卡中以定义关卡几何体（二进制空间分区或BSP笔刷）。</p>
+<h3 id="体积">体积</h3>
+<p>Volumes是带有边界的3D空间，根据连接到体积的效果，具有不同的使用方法。<br>
+例如：<br>
+阻挡体积：可见，阻止Actor通过它们。<br>
+施加伤害体积：对与其重叠的任何Actor造成持续伤害。<br>
+触发器体积：在Actor进入或退出体积时触发事件。</p>
+<h3 id="关卡">关卡</h3>
+<p>Level<br>
+关卡是我们定义的gameplay区域。保存为.umap文件。</p>
+<h3 id="世界">世界</h3>
+<p>World<br>
+世界是构成游戏的所有关卡的容器，处理关卡的流送和动态Actor的生成。</p>
+<h2 id="工具和编辑器">工具和编辑器</h2>
+<p>UE5中编辑器如下：</p>
+<ul>
+<li>关卡编辑器：搭建gameplay关卡，添加不同类型的Actor和几何体、蓝图可视化脚本、Niagara等来定义播放空间。</li>
+<li>静态网格体编辑器：预览外观、碰撞和UV贴图，以及设置和操控静态网格体。在静态网格编辑器中，也可以针对静态网格体资产设置<strong>LOD</strong>，以根据游戏运行方式和地点控制静态网格体资产出现的简洁程度或详细程度。即对一个Mesh右键进行编辑。Static Mesh Editor</li>
+<li>材质编辑器：创建和编辑材质的地方。材质是可应用于网格体以控制其视觉效果的资产。Material Editor。对一个Material右键编辑打开。</li>
+<li>蓝图编辑器：使用和修改蓝图的地方，在关卡编辑器主工具栏可以打开。这些特殊资产用来创建gameplay元素（控制Actor或对事件编写脚本），修改材质或执行其他UE引擎功能，省去编写代码的过程。</li>
+<li>物理资源编辑器：创建物理资产，以配合骨骼网格体使用。依托于骨骼网格体，为骨骼网格体创建资产。即要么在骨骼网格体导入时勾选创建物理资产，或者在内容浏览器创建物理资产并选择要使用的骨骼网格体。打开该编辑器，右键某个物理资产，点击编辑即可。</li>
+<li>行为树编辑器：可视化的基于节点脚本系统为关卡中的Actor编写人工智能脚本的地方。</li>
+<li>Niagara编辑器：粒子系统，利用由分离粒子发射器组成的全套模块化粒子效果系统，为每个效果创建特殊效果。可将发射器保在内容浏览器中，以备后用。</li>
+<li>UMG界面编辑器：视觉UI创建工具，可用来创建UI元素。在内容浏览器中添加选择用户界面（User Interface）的控件蓝图打开，并创建UI元素。</li>
+<li>字体编辑器：导入字体资源，编辑即打开字体编辑器，定义字体参数等</li>
+<li>Sequencer编辑器：创建游戏过场动画。通过创建关卡序列、添加轨迹等操作</li>
+<li>动画编辑器：可以使用该工具编辑骨骼资产、骨骼网格体、动画蓝图，以及其他各种动画资产。右键骨骼网格体编辑打开</li>
+<li>Control Rig编辑器：动画工具套件，用于直接在引擎中操纵角色并实现动画。即直接在UE中制作动画。</li>
+<li>Sound Cue编辑器：通过它编辑音频</li>
+<li>媒体编辑器：定义媒体文件或URL</li>
+<li>nDisplay 3D配置编辑器：在多个同步显示设备上渲染虚幻引擎场景，如能量墙、穹顶和曲面界面。</li>
+<li>DMX库编辑器：在整个实时事件行业用来控制各种设备的数字通信标准。</li>
+</ul>
+<h2 id="目录结构">目录结构</h2>
+<p>一个是UE引擎本身的目录，一个是游戏项目文件的目录。<br>
+最高级目录指的一般是引擎目录（Engine）以及游戏项目目录。</p>
+<h3 id="根目录">根目录</h3>
+<p>Engine目录下包含构成引擎的所有源代码、内容等<br>
+Templates目录下包含创建新项目可用的项目模板集合</p>
+<h3 id="通用目录">通用目录</h3>
+<p>Binaries：包含可执行文件或编译期间创建的其他文件<br>
+Build：包含编译引擎或游戏所需的文件，包括为某些特定平台创建项目版本时所需的文件<br>
+Config：配置文件，包含的参数可以控制引擎的行为。游戏项目的Config文件会对Engine/Config产生覆盖<br>
+Content：保存引擎或游戏中的内容，例如资产包、贴图<br>
+DerivedDataCache：包含派生数据文件。这类数据专为被引用内容生成，并且在加载时生成。假如被引用内容未生成过缓存文件，则加载时间会显著增加。<br>
+Intermediate：包含编译引擎或游戏时生成的临时文件。在游戏目录中，着色器也会保存在Intermediate目录中。<br>
+Plugins：包含引擎中使用的插件<br>
+Saved：包含自动保存文件、配置.ini文件和日志文件。<br>
+Source：包含引擎或游戏的所有源文件，包括引擎源代码、工具和游戏类等。</p>
+<p>Engine中的Source包含如下结构：<br>
+Developer：编辑器和引擎共同使用的文件<br>
+Editor：仅供编辑器使用的文件<br>
+Programs：引擎或编辑器使用的外部工具<br>
+Runtime：仅供引擎使用的文件</p>
+<p>Game中的Source按模块分组，一个模块对应一个目录。（实际创建一个FPS模板的项目时，.h和.cpp就被放在了一起）<br>
+模块总共有Classes、Private、Public<br>
+Classes：包含所有的头文件.h<br>
+Private：包含所有的源文件.cpp，包括游戏逻辑类以及各种模块的实现文件<br>
+<strong>Public：包含模块的头文件？</strong></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://windlikeo.github.io">WindLike</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://windlikeo.github.io/2025/01/08/ue/">https://windlikeo.github.io/2025/01/08/ue/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://windlikeo.github.io" target="_blank">WindLike</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/">游戏开发</a></div><div class="post-share"><div class="social-share" data-image="/Images/avatar.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.4/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.4/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="prev-post pull-left" href="/2025/01/09/ue2/" title="UE5内容浏览器"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">UE5内容浏览器</div></div></a><a class="next-post pull-right" href="/2024/11/24/ppt/" title="ppt"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">ppt</div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a href="/2024/11/16/tencent/" title="tencent"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-11-16</div><div class="title">tencent</div></div></a><a href="/2025/01/09/ue2/" title="UE5内容浏览器"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-01-09</div><div class="title">UE5内容浏览器</div></div></a><a href="/2025/01/09/ue3/" title="UE5的FPS模板"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-01-09</div><div class="title">UE5的FPS模板</div></div></a><a href="/2025/01/11/ue4/" title="UE5C++编程"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-01-11</div><div class="title">UE5C++编程</div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info is-center"><div class="avatar-img"><img src="/Images/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">WindLike</div><div class="author-info-description">平安顺遂，万事如意</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">14</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/WindLikeo"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">Just for learning. 科学上网以便公式渲染正确</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#UE%E7%95%8C%E9%9D%A2"><span class="toc-number">1.1.</span> <span class="toc-text">UE界面</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8F%9C%E5%8D%95%E6%A0%8F"><span class="toc-number">1.1.1.</span> <span class="toc-text">菜单栏</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E5%B7%A5%E5%85%B7%E6%A0%8F"><span class="toc-number">1.1.2.</span> <span class="toc-text">主工具栏</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E5%8D%A1%E8%A7%86%E5%8F%A3"><span class="toc-number">1.1.3.</span> <span class="toc-text">关卡视口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AE%B9%E4%BE%A7%E6%BB%91%E8%8F%9C%E5%8D%95-%E5%86%85%E5%AE%B9%E6%B5%8F%E8%A7%88%E5%99%A8"><span class="toc-number">1.1.4.</span> <span class="toc-text">内容侧滑菜单&#x2F;内容浏览器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%95%E9%83%A8%E5%B7%A5%E5%85%B7%E6%A0%8F"><span class="toc-number">1.1.5.</span> <span class="toc-text">底部工具栏</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%A7%E7%BA%B2"><span class="toc-number">1.1.6.</span> <span class="toc-text">大纲</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%86%E8%8A%82%E9%9D%A2%E6%9D%BF"><span class="toc-number">1.1.7.</span> <span class="toc-text">细节面板</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#UE%E6%9C%AF%E8%AF%AD"><span class="toc-number">1.2.</span> <span class="toc-text">UE术语</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE"><span class="toc-number">1.2.1.</span> <span class="toc-text">项目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%93%9D%E5%9B%BE"><span class="toc-number">1.2.2.</span> <span class="toc-text">蓝图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E8%B1%A1"><span class="toc-number">1.2.3.</span> <span class="toc-text">对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B1%BB"><span class="toc-number">1.2.4.</span> <span class="toc-text">类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Actor"><span class="toc-number">1.2.5.</span> <span class="toc-text">Actor</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2"><span class="toc-number">1.2.6.</span> <span class="toc-text">类型转换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%84%E4%BB%B6"><span class="toc-number">1.2.7.</span> <span class="toc-text">组件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Pawn"><span class="toc-number">1.2.8.</span> <span class="toc-text">Pawn</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%92%E8%89%B2"><span class="toc-number">1.2.9.</span> <span class="toc-text">角色</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8E%A9%E5%AE%B6%E6%8E%A7%E5%88%B6%E5%99%A8"><span class="toc-number">1.2.10.</span> <span class="toc-text">玩家控制器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#AI%E6%8E%A7%E5%88%B6%E5%99%A8"><span class="toc-number">1.2.11.</span> <span class="toc-text">AI控制器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8E%A9%E5%AE%B6%E7%8A%B6%E6%80%81"><span class="toc-number">1.2.12.</span> <span class="toc-text">玩家状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B8%B8%E6%88%8F%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.2.13.</span> <span class="toc-text">游戏模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B8%B8%E6%88%8F%E7%8A%B6%E6%80%81"><span class="toc-number">1.2.14.</span> <span class="toc-text">游戏状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%94%E5%88%B7"><span class="toc-number">1.2.15.</span> <span class="toc-text">笔刷</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%93%E7%A7%AF"><span class="toc-number">1.2.16.</span> <span class="toc-text">体积</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E5%8D%A1"><span class="toc-number">1.2.17.</span> <span class="toc-text">关卡</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%96%E7%95%8C"><span class="toc-number">1.2.18.</span> <span class="toc-text">世界</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B7%A5%E5%85%B7%E5%92%8C%E7%BC%96%E8%BE%91%E5%99%A8"><span class="toc-number">1.3.</span> <span class="toc-text">工具和编辑器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="toc-number">1.4.</span> <span class="toc-text">目录结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B9%E7%9B%AE%E5%BD%95"><span class="toc-number">1.4.1.</span> <span class="toc-text">根目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E7%94%A8%E7%9B%AE%E5%BD%95"><span class="toc-number">1.4.2.</span> <span class="toc-text">通用目录</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/01/11/ue4/" title="UE5C++编程">UE5C++编程</a><time datetime="2025-01-11T11:26:51.000Z" title="发表于 2025-01-11 19:26:51">2025-01-11</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/01/09/ue3/" title="UE5的FPS模板">UE5的FPS模板</a><time datetime="2025-01-09T12:36:16.000Z" title="发表于 2025-01-09 20:36:16">2025-01-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/01/09/ue2/" title="UE5内容浏览器">UE5内容浏览器</a><time datetime="2025-01-09T08:29:46.000Z" title="发表于 2025-01-09 16:29:46">2025-01-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/01/08/ue/" title="UE基础知识（一）">UE基础知识（一）</a><time datetime="2025-01-08T05:54:45.000Z" title="发表于 2025-01-08 13:54:45">2025-01-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/11/24/ppt/" title="ppt">ppt</a><time datetime="2024-11-24T15:03:13.000Z" title="发表于 2024-11-24 23:03:13">2024-11-24</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2025 By WindLike</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.0.0"></script><script src="/js/main.js?v=5.0.0"></script><div class="js-pjax"></div></div></body></html>

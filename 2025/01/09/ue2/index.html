@@ -1,0 +1,251 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>UE5内容浏览器 | WindLike</title><meta name="author" content="WindLike"><meta name="copyright" content="WindLike"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="基于UE官方文档学习编写 内容浏览器 内容浏览器（Content Browser），用于在虚幻项目中创建、导入、整理、查看和修改内容资产。 同时可以打开最多四个内容浏览器实例，该功能的意义在于：  在不同的内容浏览器中筛选不同的资产类型，例如一个只显示静态网格体，一个只显示材质等。 在项目的不同文件夹之间迁移资产  显然问题在于，什么是资产？资产都有哪些类型？ UE项目中，所有的内容片段都是资产。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UE5内容浏览器">
+<meta property="og:url" content="https://windlikeo.github.io/2025/01/09/ue2/index.html">
+<meta property="og:site_name" content="WindLike">
+<meta property="og:description" content="基于UE官方文档学习编写 内容浏览器 内容浏览器（Content Browser），用于在虚幻项目中创建、导入、整理、查看和修改内容资产。 同时可以打开最多四个内容浏览器实例，该功能的意义在于：  在不同的内容浏览器中筛选不同的资产类型，例如一个只显示静态网格体，一个只显示材质等。 在项目的不同文件夹之间迁移资产  显然问题在于，什么是资产？资产都有哪些类型？ UE项目中，所有的内容片段都是资产。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://windlikeo.github.io/Images/avatar.png">
+<meta property="article:published_time" content="2025-01-09T08:29:46.000Z">
+<meta property="article:modified_time" content="2025-01-11T12:04:21.507Z">
+<meta property="article:author" content="WindLike">
+<meta property="article:tag" content="游戏开发">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://windlikeo.github.io/Images/avatar.png"><link rel="shortcut icon" href="/img/fav.png"><link rel="canonical" href="https://windlikeo.github.io/2025/01/09/ue2/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/css/index.css?v=5.0.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.6.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        if (name && globalFn[key][name]) return
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: {"limitDay":365,"position":"top","messagePrev":"距离上次更新已经过去","messageNext":"天，文章内容可能过时"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'UE5内容浏览器',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2025-01-11 20:04:21'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/Images/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">14</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 存档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">WindLike</span></a><a class="nav-page-title" href="/"><span class="site-name">UE5内容浏览器</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 存档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">UE5内容浏览器</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-01-09T08:29:46.000Z" title="发表于 2025-01-09 16:29:46">2025-01-09</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-01-11T12:04:21.507Z" title="更新于 2025-01-11 20:04:21">2025-01-11</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%B8%B8%E6%88%8F/">游戏</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">1.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>4分钟</span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>基于UE官方文档学习编写</p>
+<h1>内容浏览器</h1>
+<p>内容浏览器（Content Browser），用于在虚幻项目中创建、导入、整理、查看和修改内容资产。</p>
+<p>同时可以打开最多四个内容浏览器实例，该功能的意义在于：</p>
+<ul>
+<li>在不同的内容浏览器中筛选不同的资产类型，例如一个只显示静态网格体，一个只显示材质等。</li>
+<li>在项目的不同文件夹之间迁移资产</li>
+</ul>
+<p>显然问题在于，什么是资产？资产都有哪些类型？</p>
+<p>UE项目中，所有的内容片段都是资产。资产就像是积木，被我们用来搭建游戏。</p>
+<p>资产有许多不同类型，一些资产可以在UE引擎外部创建，而蓝图之类的资产可以直接在引擎中创建。</p>
+<p>暂时我从UE提供的FPS模板中，所看到的资产类型共有：</p>
+<ul>
+<li>蓝图类</li>
+<li>数据资产（输入映射上下文）：设备输入到操作映射的集合</li>
+<li>数据资产（输入操作）：代表一个能被映射到任意硬件输入设备的抽象游戏操作</li>
+<li>触摸界面设置</li>
+<li>关卡</li>
+<li>MapBuildDataRegistry：用于管理和存储<strong>关卡构建数据</strong>，通常与关卡的构建、保存和加载过程相关。</li>
+<li>动画蓝图</li>
+<li>动画序列</li>
+<li>动画蒙太奇</li>
+<li>曲线图谱</li>
+<li>颜色曲线</li>
+<li>材质函数</li>
+<li>材质</li>
+<li>材质实例</li>
+<li>骨骼网格体</li>
+<li>物理资产</li>
+<li>骨骼</li>
+<li>纹理</li>
+<li>音波（Sound wave）</li>
+<li>静态网格体</li>
+<li>Sound Cue</li>
+<li>浮点曲线</li>
+<li>纹理立方体</li>
+<li>Cascade粒子系统</li>
+<li>C++类</li>
+</ul>
+<h2 id="内容浏览器界面">内容浏览器界面</h2>
+<p>再回到内容浏览器界面部分：<br>
+<img src="/Images/ue2/image1.png" alt="ue2"><br>
+如上图所示，共有导航栏、源面板、集合、筛选器、搜索栏、资产视图、设置按钮</p>
+<h3 id="No-1-导航栏（Navigation-Bar）">No.1 导航栏（Navigation Bar）</h3>
+<p>导航栏用于处理资产、在文件夹路径之间来回浏览的功能按钮，并显示当前打开的文件夹浏览记录路径。<br>
+共分为三个部分，分别是资产控制按钮、历史记录按钮、浏览记录路径<br>
+如图所示：<br>
+<img src="/Images/ue2/image2.png" alt="ue2"></p>
+<p>资产控制按钮：</p>
+<ul>
+<li>添加（Add）：用于将现有资产添加到项目中或创建新资产</li>
+<li>导入（Import）：用于打开浏览器，选择一个或多个资产，添加到项目当中。</li>
+<li>保存全部（Save All）：保存所有未保存更改的资产</li>
+</ul>
+<p>历史记录按钮：共有前进和后退之分，类似于Web的前进与后退，使得在最近的文件路径之间来回浏览</p>
+<p>浏览记录路径：显示当前文件夹路径</p>
+<h3 id="No-2-源面板（Sources-Panel）">No.2 源面板（Sources Panel）</h3>
+<p>包含项目中所有文件夹的列表（但一般开始UE有默认筛选显示）<br>
+即通过提供的FPS模板，然后内容浏览器中一般就显示 内容（Content）文件夹下的一些内容以及C++类。</p>
+<p>源面板分为收藏夹面板、项目名称、搜索按钮、资产树：<br>
+如图所示：<br>
+<img src="/Images/ue2/image3.png" alt="ue2"></p>
+<ul>
+<li>1.收藏夹面板（Favorites Panel）：包含对已添加到收藏夹中的资产的引用</li>
+<li>2.项目名称（Project Name）：即当前打开项目的名称</li>
+<li>3.搜索按钮（Search Buttons）：打开搜索栏，进行搜索</li>
+<li>4.资产树（Asset Tree）：即显示文件夹的层级列表。</li>
+</ul>
+<h3 id="No-3-集合（Collections）">No.3 集合（Collections）</h3>
+<p>集合面板显示你有权访问的所有集合的列表<br>
+如图所示：<br>
+<img src="/Images/ue2/image4.png" alt="ue2"></p>
+<p>集合由折叠/展开按钮、添加集合按钮、搜索按钮、集合列表、资产计数五个部分组成。</p>
+<h3 id="No-4-筛选器（Filters）">No.4 筛选器（Filters）</h3>
+<p>筛选器栏提供了广泛的功能，可根据广泛的过滤条件显示符合条件的资产。</p>
+<h3 id="No-5-搜索栏（Search-Bar）">No.5 搜索栏（Search Bar）</h3>
+<p>搜索栏，由筛选器按钮、搜索栏、保存搜索按钮、上一个搜索按钮组成。<br>
+以上为文档原文，认为保存搜索按钮译为<strong>保存搜索结果按钮</strong>，上一个搜索按钮应译为<strong>搜索历史按钮</strong>。<br>
+如图所示：<br>
+<img src="/Images/ue2/image5.png" alt="ue2"></p>
+<p>筛选器按钮：点击该按钮，可以打开筛选器菜单，选择相应的筛选器，从而自定义资产视图中显示的内容。<br>
+搜索栏：用于搜索资产<br>
+保存搜索结果按钮：即将当前搜索结果保存为新集合<br>
+搜索历史按钮：点击该按钮可以看到之前的搜索输入历史</p>
+<h3 id="No-6-资产视图（Asset-View）">No.6 资产视图（Asset View）</h3>
+<p>资产视图中显示当前选定文件夹或集合中的所有可用资产，共分为视图区域、资产计数。</p>
+<p>在资产视图中，可以直接将资产拖到关卡中。同时在资产视图空白处，可以点击右键，打开上下文菜单，创建和导入资产。当然可以创建文件夹。</p>
+<h3 id="No-7-设置按钮（Settings）">No.7 设置按钮（Settings）</h3>
+<p>设置按钮用于打开设置菜单，用于调整内容浏览器的相关内容：</p>
+<ul>
+<li>视图类型（资产的显示方式等）</li>
+<li>搜索筛选器</li>
+<li>要包含或排除的内容</li>
+<li>搜索选项</li>
+</ul>
+<h2 id="开发者文件夹">开发者文件夹</h2>
+<p>即Developers文件夹下，可以复制和处理资产，而不必担心破坏项目中的内容。包括从小规模资产修改，一直到项目级的重构。</p>
+<p>开发者文件夹下的资产旨在用作沙盒环境？切勿在该文件夹之外的任何位置引用此文件夹中的资产。</p>
+<p>Cook即为将资源和内容转换为引擎运行时可以高效使用的格式。这个过程通常发生在游戏开发中的打包或构建阶段，是引擎优化性能和减少加载时间的关键步骤。</p>
+<p>为了确保不会意外打包已损坏或正在处理的资产，可从Cook版本中排除开发者文件夹。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://windlikeo.github.io">WindLike</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://windlikeo.github.io/2025/01/09/ue2/">https://windlikeo.github.io/2025/01/09/ue2/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://windlikeo.github.io" target="_blank">WindLike</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/">游戏开发</a></div><div class="post-share"><div class="social-share" data-image="/Images/avatar.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.4/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.4/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="prev-post pull-left" href="/2025/01/09/ue3/" title="UE5的FPS模板"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">UE5的FPS模板</div></div></a><a class="next-post pull-right" href="/2025/01/08/ue/" title="UE基础知识（一）"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">UE基础知识（一）</div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a href="/2024/11/16/tencent/" title="tencent"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-11-16</div><div class="title">tencent</div></div></a><a href="/2025/01/08/ue/" title="UE基础知识（一）"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-01-08</div><div class="title">UE基础知识（一）</div></div></a><a href="/2025/01/09/ue3/" title="UE5的FPS模板"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-01-09</div><div class="title">UE5的FPS模板</div></div></a><a href="/2025/01/11/ue4/" title="UE5C++编程"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-01-11</div><div class="title">UE5C++编程</div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info is-center"><div class="avatar-img"><img src="/Images/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">WindLike</div><div class="author-info-description">平安顺遂，万事如意</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">14</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/WindLikeo"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">Just for learning. 科学上网以便公式渲染正确</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">内容浏览器</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%85%E5%AE%B9%E6%B5%8F%E8%A7%88%E5%99%A8%E7%95%8C%E9%9D%A2"><span class="toc-number">1.1.</span> <span class="toc-text">内容浏览器界面</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#No-1-%E5%AF%BC%E8%88%AA%E6%A0%8F%EF%BC%88Navigation-Bar%EF%BC%89"><span class="toc-number">1.1.1.</span> <span class="toc-text">No.1 导航栏（Navigation Bar）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#No-2-%E6%BA%90%E9%9D%A2%E6%9D%BF%EF%BC%88Sources-Panel%EF%BC%89"><span class="toc-number">1.1.2.</span> <span class="toc-text">No.2 源面板（Sources Panel）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#No-3-%E9%9B%86%E5%90%88%EF%BC%88Collections%EF%BC%89"><span class="toc-number">1.1.3.</span> <span class="toc-text">No.3 集合（Collections）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#No-4-%E7%AD%9B%E9%80%89%E5%99%A8%EF%BC%88Filters%EF%BC%89"><span class="toc-number">1.1.4.</span> <span class="toc-text">No.4 筛选器（Filters）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#No-5-%E6%90%9C%E7%B4%A2%E6%A0%8F%EF%BC%88Search-Bar%EF%BC%89"><span class="toc-number">1.1.5.</span> <span class="toc-text">No.5 搜索栏（Search Bar）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#No-6-%E8%B5%84%E4%BA%A7%E8%A7%86%E5%9B%BE%EF%BC%88Asset-View%EF%BC%89"><span class="toc-number">1.1.6.</span> <span class="toc-text">No.6 资产视图（Asset View）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#No-7-%E8%AE%BE%E7%BD%AE%E6%8C%89%E9%92%AE%EF%BC%88Settings%EF%BC%89"><span class="toc-number">1.1.7.</span> <span class="toc-text">No.7 设置按钮（Settings）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E5%8F%91%E8%80%85%E6%96%87%E4%BB%B6%E5%A4%B9"><span class="toc-number">1.2.</span> <span class="toc-text">开发者文件夹</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/01/11/ue4/" title="UE5C++编程">UE5C++编程</a><time datetime="2025-01-11T11:26:51.000Z" title="发表于 2025-01-11 19:26:51">2025-01-11</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/01/09/ue3/" title="UE5的FPS模板">UE5的FPS模板</a><time datetime="2025-01-09T12:36:16.000Z" title="发表于 2025-01-09 20:36:16">2025-01-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/01/09/ue2/" title="UE5内容浏览器">UE5内容浏览器</a><time datetime="2025-01-09T08:29:46.000Z" title="发表于 2025-01-09 16:29:46">2025-01-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/01/08/ue/" title="UE基础知识（一）">UE基础知识（一）</a><time datetime="2025-01-08T05:54:45.000Z" title="发表于 2025-01-08 13:54:45">2025-01-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/11/24/ppt/" title="ppt">ppt</a><time datetime="2024-11-24T15:03:13.000Z" title="发表于 2024-11-24 23:03:13">2024-11-24</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2025 By WindLike</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.0.0"></script><script src="/js/main.js?v=5.0.0"></script><div class="js-pjax"></div></div></body></html>
